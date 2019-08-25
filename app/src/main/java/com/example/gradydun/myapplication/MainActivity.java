@@ -29,7 +29,10 @@ public class MainActivity extends AppCompatActivity {
             // TODO Auto-generated method stub
             Log.e(TAG, "button 2 clicked");
             SmartcardDialog dialog = new SmartcardDialog();
+
+            //禁止點選Dailog外部或返回鍵時關閉Dialog
             dialog.setCancelable(false);
+
             dialog.show(getFragmentManager(), "Test");
         }
     };
