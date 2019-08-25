@@ -3,12 +3,13 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -46,6 +47,19 @@ public class SmartcardDialog extends DialogFragment implements View.OnClickListe
         // Pass null as the parent view because its going in the dialog layout
 
         editText_pinCode = view.findViewById(R.id.pincode);
+
+        //disable to pop up soft keyboard when editText on focus
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ){
+            editText_pinCode.setShowSoftInputOnFocus(false);
+        }else {
+            editText_pinCode.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    //v.performClick();
+                    return true;
+                }
+            });
+        }
 
         initView(view);
         initNumbericPadClickHandler(view);
