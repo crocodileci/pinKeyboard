@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import java.lang.reflect.Field;
 
@@ -35,6 +36,7 @@ public class SmartcardDialog extends DialogFragment implements View.OnClickListe
     private Button mNum7;
     private Button mNum8;
     private Button mNum9;
+    private LinearLayout mDelPwd;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
@@ -119,6 +121,7 @@ public class SmartcardDialog extends DialogFragment implements View.OnClickListe
         mNum7 = (Button) view.findViewById(R.id.button7);
         mNum8 = (Button) view.findViewById(R.id.button8);
         mNum9 = (Button) view.findViewById(R.id.button9);
+        mDelPwd = (LinearLayout) view.findViewById(R.id.button_del);
         //洗牌
         int[] num = new int[]{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         shuffleSort(num);
@@ -162,19 +165,26 @@ public class SmartcardDialog extends DialogFragment implements View.OnClickListe
         mNum7.setOnClickListener(this);
         mNum8.setOnClickListener(this);
         mNum9.setOnClickListener(this);
+        mDelPwd.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
 
-        String buttonText = ((Button)v).getText().toString();
-        Log.e(TAG, "Numberic pad is clicked: " + buttonText);
+        int keycode;
 
-        //取得key code
-        int code = KeyEvent.KEYCODE_NUMPAD_0 + Integer.parseInt(buttonText);
+        if(v.getId() == R.id.button_del){
+            keycode = KeyEvent.KEYCODE_DEL;
+            Log.e(TAG, "delete pad is clicked");
+        }else {
+            String buttonText = ((Button)v).getText().toString();
+            Log.e(TAG, "Numberic pad is clicked: " + buttonText);
+            //取得key code
+            keycode = KeyEvent.KEYCODE_NUMPAD_0 + Integer.parseInt(buttonText);
+        }
 
         //發送給editText物件
         editText_pinCode.dispatchKeyEvent(new KeyEvent(0, 0, KeyEvent.ACTION_DOWN,
-                code, 0));
+                keycode, 0));
     }
 }
