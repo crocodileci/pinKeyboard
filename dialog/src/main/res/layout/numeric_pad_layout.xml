@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:padding="2dp">
 
+    <TextView style="@style/HorizontalSeparationLineStyle" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,25 +15,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            style="?android:attr/buttonStyle"
+            style="@style/KeyBroadBtnStyle"
             android:text="1" />
-
+        <TextView style="@style/VerticalSeparationLineStyle" />
         <Button
             android:id="@+id/button2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="?android:attr/buttonStyle"
+            style="@style/KeyBroadBtnStyle"
             android:layout_weight="1"
             android:text="2" />
-
+        <TextView style="@style/VerticalSeparationLineStyle" />
         <Button
             android:id="@+id/button3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="?android:attr/buttonStyle"
+            style="@style/KeyBroadBtnStyle"
             android:layout_weight="1"
             android:text="3" />
     </LinearLayout>
+    <TextView style="@style/HorizontalSeparationLineStyle" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,26 +43,27 @@
             android:id="@+id/button4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="?android:attr/buttonStyle"
+            style="@style/KeyBroadBtnStyle"
             android:layout_weight="1"
             android:text="4" />
-
+        <TextView style="@style/VerticalSeparationLineStyle" />
         <Button
             android:id="@+id/button5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="?android:attr/buttonStyle"
+            style="@style/KeyBroadBtnStyle"
             android:layout_weight="1"
             android:text="5" />
-
+        <TextView style="@style/VerticalSeparationLineStyle" />
         <Button
             android:id="@+id/button6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="?android:attr/buttonStyle"
+            style="@style/KeyBroadBtnStyle"
             android:layout_weight="1"
             android:text="6" />
     </LinearLayout>
+    <TextView style="@style/HorizontalSeparationLineStyle" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -69,26 +72,27 @@
             android:id="@+id/button7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="?android:attr/buttonStyle"
+            style="@style/KeyBroadBtnStyle"
             android:layout_weight="1"
             android:text="7" />
-
+        <TextView style="@style/VerticalSeparationLineStyle" />
         <Button
             android:id="@+id/button8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="?android:attr/buttonStyle"
+            style="@style/KeyBroadBtnStyle"
             android:layout_weight="1"
             android:text="8" />
-
+        <TextView style="@style/VerticalSeparationLineStyle" />
         <Button
             android:id="@+id/button9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="?android:attr/buttonStyle"
+            style="@style/KeyBroadBtnStyle"
             android:layout_weight="1"
             android:text="9" />
     </LinearLayout>
+    <TextView style="@style/HorizontalSeparationLineStyle" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -98,19 +102,21 @@
             android:layout_height="wrap_content"
             style="?android:attr/buttonStyle"
             android:layout_weight="1" />
+        <TextView style="@style/VerticalSeparationLineStyle" />
         <Button
-            android:id="@+id/button10"
+            android:id="@+id/button0"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="?android:attr/buttonStyle"
+            style="@style/KeyBroadBtnStyle"
             android:layout_weight="1"
             android:text="0" />
-
+        <TextView style="@style/VerticalSeparationLineStyle" />
         <Space
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             style="?android:attr/buttonStyle"
             android:layout_weight="1" />
     </LinearLayout>
+    <TextView style="@style/HorizontalSeparationLineStyle" />
 </LinearLayout>
 

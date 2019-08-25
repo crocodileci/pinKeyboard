@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="VerticalSeparationLineStyle">
+        <item name="android:background">#ebeef3</item>
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+    <style name="HorizontalSeparationLineStyle">
+        <item name="android:background">#ebeef3</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+    </style>
+    <style name="KeyBroadBtnStyle">
+        <item name="android:textSize">22sp</item>
+        <item name="android:background">@drawable/keybroad_btn_selector</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0dp</item>
+    </style>
+</resources>
