@@ -1,65 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="22dp"
-        android:text="@string/password_description" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="22dp"
+            android:text="@string/password_description" />
 
-    <EditText
-        android:id="@+id/pincode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView"
-        android:layout_alignStart="@+id/textView"
-        android:layout_below="@+id/textView"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="@string/password"
-        android:inputType="numberPassword" />
+        <EditText
+            android:id="@+id/pincode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView"
+            android:layout_alignStart="@+id/textView"
+            android:layout_below="@+id/textView"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="@string/password"
+            android:inputType="numberPassword" />
 
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/pincode"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="23dp">
+        <FrameLayout
+            android:id="@+id/frameLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pincode"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="23dp">
 
-        <include layout="@layout/numeric_pad_layout" />
-    </FrameLayout>
-
-    <!--<Button-->
-    <!--android:id="@+id/btn_confirm"-->
-    <!--style="@style/Widget.AppCompat.Button.Borderless.Colored"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignEnd="@+id/frameLayout"-->
-    <!--android:layout_alignRight="@+id/frameLayout"-->
-    <!--android:layout_below="@+id/frameLayout"-->
-    <!--android:layout_marginTop="16dp"-->
-    <!--android:text="確認Confirm"-->
-    <!--android:textAppearance="@style/TextAppearance.AppCompat.Button" />-->
-
-    <!--<Button-->
-    <!--android:id="@+id/btn_cancel"-->
-    <!--style="@style/Widget.AppCompat.Button.Borderless.Colored"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignBaseline="@+id/btn_confirm"-->
-    <!--android:layout_alignBottom="@+id/btn_confirm"-->
-    <!--android:layout_toLeftOf="@+id/btn_confirm"-->
-    <!--android:layout_toStartOf="@+id/btn_confirm"-->
-    <!--android:text="取消Cancel"-->
-    <!--android:textAppearance="@style/TextAppearance.AppCompat.Button" />-->
-</RelativeLayout>
+            <include layout="@layout/numeric_pad_layout" />
+        </FrameLayout>
+    </RelativeLayout>
+</ScrollView>
