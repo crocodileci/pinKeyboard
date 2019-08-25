@@ -3,5 +3,7 @@
     <string name="launcher_name">@string/app_name</string>
     <string name="activity_name">@string/launcher_name</string>
     <string name="password">card pin code</string>>
-    <string name="password_description">Enter your card pin code</string>
+    <string name="pincode_hint">請輸入卡片密碼</string>
+    <string name="pincode_new1_hint">請輸入新的卡片密碼</string>
+    <string name="pincode_new2_hint">再次輸入新的卡片密碼</string>
 </resources>
