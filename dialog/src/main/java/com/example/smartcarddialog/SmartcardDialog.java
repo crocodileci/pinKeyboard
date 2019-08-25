@@ -5,6 +5,7 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,19 +18,22 @@ import java.lang.reflect.Field;
  * Created by gradydun on 2019/8/23.
  */
 
-public class SmartcardDialog extends DialogFragment {
+public class SmartcardDialog extends DialogFragment implements View.OnClickListener {
 
     private final String TAG = "SmartcardDialog";
-    Button btn_confirm;
-    Button btn_cancel;
-    EditText editText_pinCode;
 
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-//        View view = inflater.inflate(R.layout.smartcard_dialog_container, container);
-//
-//        return view;
-//    }
+    //UI component
+    private EditText editText_pinCode;
+    private Button mNum0;
+    private Button mNum1;
+    private Button mNum2;
+    private Button mNum3;
+    private Button mNum4;
+    private Button mNum5;
+    private Button mNum6;
+    private Button mNum7;
+    private Button mNum8;
+    private Button mNum9;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
@@ -42,6 +46,9 @@ public class SmartcardDialog extends DialogFragment {
         // Pass null as the parent view because its going in the dialog layout
 
         editText_pinCode = view.findViewById(R.id.pincode);
+
+        initView(view);
+        initNumbericPadClickHandler(view);
 
         builder.setView(view)
                 .setTitle("查詢餘額")
@@ -87,7 +94,73 @@ public class SmartcardDialog extends DialogFragment {
         return builder.create();
     }
 
-    private void shuffleNumbericPad(View view){
+    private void initView(View view) {
+        mNum0 = (Button) view.findViewById(R.id.button0);
+        mNum1 = (Button) view.findViewById(R.id.button1);
+        mNum2 = (Button) view.findViewById(R.id.button2);
+        mNum3 = (Button) view.findViewById(R.id.button3);
+        mNum4 = (Button) view.findViewById(R.id.button4);
+        mNum5 = (Button) view.findViewById(R.id.button5);
+        mNum6 = (Button) view.findViewById(R.id.button6);
+        mNum7 = (Button) view.findViewById(R.id.button7);
+        mNum8 = (Button) view.findViewById(R.id.button8);
+        mNum9 = (Button) view.findViewById(R.id.button9);
+        //洗牌
+        int[] num = new int[]{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        shuffleSort(num);
+        mNum0.setText(String.valueOf(num[0]));
+        mNum1.setText(String.valueOf(num[1]));
+        mNum2.setText(String.valueOf(num[2]));
+        mNum3.setText(String.valueOf(num[3]));
+        mNum4.setText(String.valueOf(num[4]));
+        mNum5.setText(String.valueOf(num[5]));
+        mNum6.setText(String.valueOf(num[6]));
+        mNum7.setText(String.valueOf(num[7]));
+        mNum8.setText(String.valueOf(num[8]));
+        mNum9.setText(String.valueOf(num[9]));
+    }
 
+    //洗牌算法
+    private void shuffleSort(int[] data) {
+        for (int i = 0; i < data.length - 1; i++) {
+            int j = (int) (data.length * Math.random());
+            swap(data, i, j);
+        }
+    }
+
+    private void swap(int[] data, int i, int j) {
+        if (i == j) {
+            return;
+        }
+        data[i] = data[i] + data[j];
+        data[j] = data[i] - data[j];
+        data[i] = data[i] - data[j];
+    }
+
+    private void initNumbericPadClickHandler(View view){
+        mNum0.setOnClickListener(this);
+        mNum1.setOnClickListener(this);
+        mNum2.setOnClickListener(this);
+        mNum3.setOnClickListener(this);
+        mNum4.setOnClickListener(this);
+        mNum5.setOnClickListener(this);
+        mNum6.setOnClickListener(this);
+        mNum7.setOnClickListener(this);
+        mNum8.setOnClickListener(this);
+        mNum9.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        String buttonText = ((Button)v).getText().toString();
+        Log.e(TAG, "Numberic pad is clicked: " + buttonText);
+
+        //取得key code
+        int code = KeyEvent.KEYCODE_NUMPAD_0 + Integer.parseInt(buttonText);
+
+        //發送給editText物件
+        editText_pinCode.dispatchKeyEvent(new KeyEvent(0, 0, KeyEvent.ACTION_DOWN,
+                code, 0));
     }
 }
