@@ -36,10 +36,8 @@ public class MainActivity extends AppCompatActivity {
             Log.e(TAG, "button 2 clicked");
             SmartcardDialog dialog = new SmartcardDialog();
 
-            Bundle bundle = new Bundle();
-            bundle.putString(SmartcardDialog.BUNDLE_KEY_DIALOG_TYPE, SmartcardDialog.VERIFY_PIN);
-            bundle.putString(SmartcardDialog.BUNDLE_KEY_TITLE, "餘額查詢");
-            dialog.setArguments(bundle);
+            dialog.setTitle("餘額查詢");
+            dialog.setDialogType(SmartcardDialog.VERIFY_PIN);
 
             //禁止點選Dailog外部或返回鍵時關閉Dialog
             dialog.setCancelable(false);
@@ -51,14 +49,11 @@ public class MainActivity extends AppCompatActivity {
     private Button.OnClickListener btn3Listener = new Button.OnClickListener() {
         @Override
         public void onClick(View v) {
-            // TODO Auto-generated method stub
             Log.e(TAG, "button 3 clicked");
             SmartcardDialog dialog = new SmartcardDialog();
 
-            Bundle bundle = new Bundle();
-            bundle.putString(SmartcardDialog.BUNDLE_KEY_DIALOG_TYPE, SmartcardDialog.CHANGE_PIN);
-            bundle.putString(SmartcardDialog.BUNDLE_KEY_TITLE, "變更密碼");
-            dialog.setArguments(bundle);
+            dialog.setTitle("變更密碼");
+            dialog.setDialogType(SmartcardDialog.CHANGE_PIN);
 
             //禁止點選Dailog外部或返回鍵時關閉Dialog
             dialog.setCancelable(false);
