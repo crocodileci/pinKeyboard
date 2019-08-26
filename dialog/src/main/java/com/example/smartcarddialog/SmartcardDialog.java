@@ -27,8 +27,6 @@ public class SmartcardDialog extends DialogFragment implements View.OnClickListe
     private final String TAG = "SmartcardDialog";
     public final static String VERIFY_PIN = "VERIFY_PIN";
     public final static String CHANGE_PIN = "CHANGE_PIN";
-    public final static String BUNDLE_KEY_DIALOG_TYPE = "BUNDLE_KEY_DIALOG_TYPE";
-    public final static String BUNDLE_KEY_TITLE = "BUNDLE_KEY_TITLE";
 
     //UI component
     private EditText editText_pinCode;
@@ -62,57 +60,10 @@ public class SmartcardDialog extends DialogFragment implements View.OnClickListe
         // Pass null as the parent view because its going in the dialog layout
         View view = inflater.inflate(R.layout.smartcard_dialog_container, null);
 
-        editText_pinCode = view.findViewById(R.id.pincode);
-        editText_pinCode_new1 = view.findViewById(R.id.pincode_new1);
-        editText_pinCode_new2 = view.findViewById(R.id.pincode_new2);
-
-        title = "";
-
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            dialogType = bundle.getString(SmartcardDialog.BUNDLE_KEY_DIALOG_TYPE);
-            title = bundle.getString(SmartcardDialog.BUNDLE_KEY_TITLE);
-            Log.d("Tag", "dialogType: " + dialogType + " title: " + title);
-        }
-
-        if(SmartcardDialog.VERIFY_PIN.equals(dialogType)){
-            editText_pinCode_new1.setVisibility(View.GONE);
-            editText_pinCode_new2.setVisibility(View.GONE);
-        }
-
-        //disable to pop up soft keyboard when editText on focus
-        disableSoftKeyboard_touchListener = new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                //v.performClick();
-                v.onTouchEvent(event);
-                InputMethodManager inputMethod = (InputMethodManager)v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (inputMethod!= null) {
-                    inputMethod.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                }
-
-                int id = v.getId();
-
-                if(id == R.id.pincode){
-                    focusEditText = editText_pinCode;
-                }else if(id == R.id.pincode_new1){
-                    focusEditText = editText_pinCode_new1;
-                } else if(id == R.id.pincode_new2){
-                    focusEditText = editText_pinCode_new2;
-                }
-                return true;
-            }
-        };
-
-        focusEditText = editText_pinCode;
-
-        editText_pinCode.setOnTouchListener(disableSoftKeyboard_touchListener);
-        editText_pinCode_new1.setOnTouchListener(disableSoftKeyboard_touchListener);
-        editText_pinCode_new2.setOnTouchListener(disableSoftKeyboard_touchListener);
-
         initView(view);
         initNumbericPadClickHandler(view);
 
+        //init dialog
         builder.setView(view)
                 .setTitle(title)
                 // Add action buttons
@@ -182,6 +133,73 @@ public class SmartcardDialog extends DialogFragment implements View.OnClickListe
         mNum7.setText(String.valueOf(num[7]));
         mNum8.setText(String.valueOf(num[8]));
         mNum9.setText(String.valueOf(num[9]));
+
+        //disable to pop up soft keyboard when editText on focus
+        disableSoftKeyboard_touchListener = new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                //v.performClick();
+                v.onTouchEvent(event);
+                InputMethodManager inputMethod = (InputMethodManager)v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (inputMethod!= null) {
+                    inputMethod.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+
+                int id = v.getId();
+
+                if(id == R.id.pincode){
+                    focusEditText = editText_pinCode;
+                }else if(id == R.id.pincode_new1){
+                    focusEditText = editText_pinCode_new1;
+                } else if(id == R.id.pincode_new2){
+                    focusEditText = editText_pinCode_new2;
+                }
+                return true;
+            }
+        };
+
+        editText_pinCode = view.findViewById(R.id.pincode);
+        editText_pinCode_new1 = view.findViewById(R.id.pincode_new1);
+        editText_pinCode_new2 = view.findViewById(R.id.pincode_new2);
+
+        setTitle(title);
+        setDialogType(dialogType);
+
+        if(SmartcardDialog.VERIFY_PIN.equals(dialogType)) {
+            editText_pinCode_new1.setVisibility(View.GONE);
+            editText_pinCode_new2.setVisibility(View.GONE);
+        }
+
+        //disable to pop up soft keyboard when editText on focus
+        disableSoftKeyboard_touchListener = new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                //v.performClick();
+                v.onTouchEvent(event);
+                InputMethodManager inputMethod = (InputMethodManager)v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (inputMethod!= null) {
+                    inputMethod.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+
+                int id = v.getId();
+
+                if(id == R.id.pincode){
+                    focusEditText = editText_pinCode;
+                }else if(id == R.id.pincode_new1){
+                    focusEditText = editText_pinCode_new1;
+                } else if(id == R.id.pincode_new2){
+                    focusEditText = editText_pinCode_new2;
+                }
+                return true;
+            }
+        };
+
+        focusEditText = editText_pinCode;
+        
+        editText_pinCode.setOnTouchListener(disableSoftKeyboard_touchListener);
+        editText_pinCode_new1.setOnTouchListener(disableSoftKeyboard_touchListener);
+        editText_pinCode_new2.setOnTouchListener(disableSoftKeyboard_touchListener);
+
     }
 
     //洗牌算法
@@ -233,5 +251,30 @@ public class SmartcardDialog extends DialogFragment implements View.OnClickListe
         //發送給editText物件
         focusEditText.dispatchKeyEvent(new KeyEvent(0, 0, KeyEvent.ACTION_DOWN,
                 keycode, 0));
+    }
+
+    /**
+     * Set Dialog title,
+     * @param title default value: "餘額查詢"
+     */
+    public void setTitle(String title){
+        this.title = title;
+
+        if(title == null){
+            this.title = "餘額查詢";
+        }
+    }
+
+    /**
+     * set Dialog type
+     * @param dialogType default value: SmartcardDialog.VERIFY_PIN
+     *                   valid value: SmartcardDialog.CHANGE_PIN, SmartcardDialog.VERIFY_PIN
+     */
+    public void setDialogType(String dialogType){
+        this.dialogType = dialogType;
+
+        if(dialogType == null && !SmartcardDialog.VERIFY_PIN.equals(dialogType) && !SmartcardDialog.CHANGE_PIN.equals(dialogType)){
+            this.dialogType = SmartcardDialog.VERIFY_PIN;
+        }
     }
 }
