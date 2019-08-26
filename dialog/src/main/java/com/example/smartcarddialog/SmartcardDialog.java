@@ -66,7 +66,7 @@ public class SmartcardDialog extends DialogFragment implements View.OnClickListe
         builder.setView(view)
                 .setTitle(title)
                 // Add action buttons
-                .setPositiveButton("確認Confirm", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         Log.e(TAG, "on click confirm handler");
@@ -91,7 +91,7 @@ public class SmartcardDialog extends DialogFragment implements View.OnClickListe
                         }
                     }
                 })
-                .setNegativeButton("取消Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Log.e(TAG, "on click cancel handler");

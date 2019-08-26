@@ -6,4 +6,6 @@
     <string name="pincode_hint">請輸入卡片密碼</string>
     <string name="pincode_new1_hint">請輸入新的卡片密碼</string>
     <string name="pincode_new2_hint">再次輸入新的卡片密碼</string>
+    <string name="confirm">確認Confirm</string>>
+    <string name="cancel">取消Cancel</string>
 </resources>
