@@ -2,21 +2,20 @@ package com.example.smartcarddialog;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 /**
  * Created by gradydun on 2019/8/23.
@@ -47,7 +46,7 @@ public class SmartcardDialog extends DialogFragment implements View.OnClickListe
     private String title;
     private String dialogType;
 
-    private View.OnTouchListener disableSoftKeyboard_touchListener;
+    private View.OnFocusChangeListener mFocusChangedListener;
     private EditText focusEditText;
 
     @Override
@@ -134,30 +133,6 @@ public class SmartcardDialog extends DialogFragment implements View.OnClickListe
         mNum8.setText(String.valueOf(num[8]));
         mNum9.setText(String.valueOf(num[9]));
 
-        //disable to pop up soft keyboard when editText on focus
-        disableSoftKeyboard_touchListener = new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                //v.performClick();
-                v.onTouchEvent(event);
-                InputMethodManager inputMethod = (InputMethodManager)v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (inputMethod!= null) {
-                    inputMethod.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                }
-
-                int id = v.getId();
-
-                if(id == R.id.pincode){
-                    focusEditText = editText_pinCode;
-                }else if(id == R.id.pincode_new1){
-                    focusEditText = editText_pinCode_new1;
-                } else if(id == R.id.pincode_new2){
-                    focusEditText = editText_pinCode_new2;
-                }
-                return true;
-            }
-        };
-
         editText_pinCode = view.findViewById(R.id.pincode);
         editText_pinCode_new1 = view.findViewById(R.id.pincode_new1);
         editText_pinCode_new2 = view.findViewById(R.id.pincode_new2);
@@ -171,34 +146,47 @@ public class SmartcardDialog extends DialogFragment implements View.OnClickListe
         }
 
         //disable to pop up soft keyboard when editText on focus
-        disableSoftKeyboard_touchListener = new View.OnTouchListener() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            editText_pinCode.setShowSoftInputOnFocus(false);
+            editText_pinCode_new1.setShowSoftInputOnFocus(false);
+            editText_pinCode_new2.setShowSoftInputOnFocus(false);
+        }else {
+            //這裏採用反射調用被隱藏方法
+            setShowSoftInputOnFocus(editText_pinCode,false);
+            setShowSoftInputOnFocus(editText_pinCode_new1,false);
+            setShowSoftInputOnFocus(editText_pinCode_new2,false);
+        }
+
+        //初始化focusEditText
+        focusEditText = editText_pinCode;
+
+        //設定editText的OnOnFocusChangeListener
+        mFocusChangedListener = new View.OnFocusChangeListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                //v.performClick();
-                v.onTouchEvent(event);
-                InputMethodManager inputMethod = (InputMethodManager)v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (inputMethod!= null) {
-                    inputMethod.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                }
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    //Toast.makeText(getActivity().getApplicationContext(), "got focus: " + v.toString(), Toast.LENGTH_LONG).show();
+                    int id = v.getId();
 
-                int id = v.getId();
+                    if(id == R.id.pincode){
+                        focusEditText = editText_pinCode;
+                    }else if(id == R.id.pincode_new1){
+                        focusEditText = editText_pinCode_new1;
+                    } else if(id == R.id.pincode_new2){
+                        focusEditText = editText_pinCode_new2;
+                    }
+                }else {
+                    //Toast.makeText(getActivity().getApplicationContext(), "lost focus: " + v.toString(), Toast.LENGTH_LONG).show();
 
-                if(id == R.id.pincode){
-                    focusEditText = editText_pinCode;
-                }else if(id == R.id.pincode_new1){
-                    focusEditText = editText_pinCode_new1;
-                } else if(id == R.id.pincode_new2){
-                    focusEditText = editText_pinCode_new2;
                 }
-                return true;
             }
         };
 
-        focusEditText = editText_pinCode;
-        
-        editText_pinCode.setOnTouchListener(disableSoftKeyboard_touchListener);
-        editText_pinCode_new1.setOnTouchListener(disableSoftKeyboard_touchListener);
-        editText_pinCode_new2.setOnTouchListener(disableSoftKeyboard_touchListener);
+        editText_pinCode.setOnFocusChangeListener(mFocusChangedListener);
+        editText_pinCode_new1.setOnFocusChangeListener(mFocusChangedListener);
+        editText_pinCode_new2.setOnFocusChangeListener(mFocusChangedListener);
+
+
 
     }
 
@@ -231,6 +219,35 @@ public class SmartcardDialog extends DialogFragment implements View.OnClickListe
         mNum8.setOnClickListener(this);
         mNum9.setOnClickListener(this);
         mDelPwd.setOnClickListener(this);
+    }
+
+    /**
+     * Disable system keyboard when editText on focus
+     * @param editText
+     * @param show
+     * @see https://gist.github.com/fyhack/7333124
+     */
+    private void setShowSoftInputOnFocus(EditText editText,boolean show) {
+
+        try { // 有部分SDK的方法名字为setShowSoftInputOnFocus(4.2)
+            Class<EditText> cls = EditText.class;
+            Method setShowSoftInputOnFocus;
+            setShowSoftInputOnFocus = cls.getMethod("setShowSoftInputOnFocus",
+                    boolean.class);
+            setShowSoftInputOnFocus.setAccessible(true);
+            setShowSoftInputOnFocus.invoke(editText, show);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try { //反射方法设置setSoftInputShownOnFocus(4.0)的值解决
+            Class<EditText> cls = EditText.class;
+            Method setSoftInputShownOnFocus;
+            setSoftInputShownOnFocus = cls.getMethod("setSoftInputShownOnFocus", boolean.class);
+            setSoftInputShownOnFocus.setAccessible(true);
+            setSoftInputShownOnFocus.invoke(editText, false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
