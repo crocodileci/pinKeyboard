@@ -68,11 +68,11 @@ public class MainActivity extends AppCompatActivity {
 
     private SmartcardDialog.InputCompleteListener completeListener = new SmartcardDialog.InputCompleteListener() {
         @Override
-        public void inputComplete(boolean isCanceled, String pinCode, String pinCode_new1, String pinCode_new2) {
+        public void inputComplete(boolean isCanceled, String pinCode_orig, String pinCode_new) {
             if(isCanceled){
                 showToast("User Canceled");
             }else{
-                showToast("pinCode: " + pinCode + " pinCode_new1: " + pinCode_new1 + " pinCode_new2: " + pinCode_new2);
+                showToast("pinCode: " + pinCode_orig + " pinCode_new: " + pinCode_new);
             }
         }
     };
