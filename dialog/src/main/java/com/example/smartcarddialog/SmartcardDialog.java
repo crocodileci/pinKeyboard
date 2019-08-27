@@ -54,7 +54,7 @@ public class SmartcardDialog extends DialogFragment implements View.OnClickListe
     private InputCompleteListener mInputCompleteListener;
 
     public interface InputCompleteListener {
-        public void inputComplete(boolean isCanceled, String pinCode, String pinCode_new1, String pinCode_new2);
+        public void inputComplete(boolean isCanceled, String pinCode_orig, String pinCode_new);
     }
 
     public void setOnInputCompleteListener(InputCompleteListener inputCompleteListener) {
@@ -98,7 +98,7 @@ public class SmartcardDialog extends DialogFragment implements View.OnClickListe
                                 field.setAccessible(true);
                                 field.set(dialog, true);
                                 if(mInputCompleteListener!= null) {
-                                    mInputCompleteListener.inputComplete(false, pincode, pincode_new1, pincode_new2);
+                                    mInputCompleteListener.inputComplete(false, pincode, pincode_new1);
                                 }
 
                             } else {
@@ -122,7 +122,7 @@ public class SmartcardDialog extends DialogFragment implements View.OnClickListe
                             field.set(dialogInterface, true);
 
                             if(mInputCompleteListener!= null) {
-                                mInputCompleteListener.inputComplete(true, "", "", "");
+                                mInputCompleteListener.inputComplete(true, "", "");
                             }
 
                         } catch (Exception e){
