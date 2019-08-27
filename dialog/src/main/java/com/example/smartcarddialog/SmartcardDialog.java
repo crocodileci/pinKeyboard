@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,11 +73,15 @@ public class SmartcardDialog extends DialogFragment implements View.OnClickListe
                     public void onClick(DialogInterface dialog, int id) {
                         Log.e(TAG, "on click confirm handler");
 
-                        int pincode_length = editText_pinCode.getText().length();
+                        String pincode = editText_pinCode.getText().toString();
+                        String pincode_new1 = editText_pinCode_new1.getText().toString();
+                        String pincode_new2 = editText_pinCode_new2.getText().toString();
+
+                        boolean isInputDataValid = isInputDataValid(dialogType, pincode, pincode_new1, pincode_new2);
 
                         //如果檢核條件Pass則直接return
                         try {
-                            if (pincode_length >= 6 && pincode_length <= 12) {
+                            if (isInputDataValid) {
                                 //關閉Dialog
                                 Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
                                 field.setAccessible(true);
@@ -105,6 +111,46 @@ public class SmartcardDialog extends DialogFragment implements View.OnClickListe
                     }
                 });
         return builder.create();
+    }
+
+    private boolean isInputDataValid(String dialogType, String pincode, String pincode_new1, String pincode_new2){
+        boolean isDataValid = false;
+
+        int pincode_length = pincode.length();
+        int pincode_new1_length = pincode_new1.length();
+        int pincode_new2_length = pincode_new2.length();
+
+        if("".equals(pincode)){
+            showToast("輸入欄位不得為空");
+        }else if(pincode_length < 6 || pincode_length > 12){
+            showToast("卡片密碼長度有誤請重新輸入");
+        } else if(CHANGE_PIN.equals(dialogType)){
+
+            if("".equals(pincode_new1) || "".equals(pincode_new2)){
+                showToast("輸入欄位不得為空");
+            }else if(pincode_new1_length < 6 || pincode_new1_length > 12 ||
+                    pincode_new2_length < 6 || pincode_new2_length > 12){
+                showToast("新卡片密碼長度有誤請重新輸入");
+            }else if(!pincode_new1.equals(pincode_new2)){
+                showToast("新卡片密碼兩次輸入不一致，請重新輸入");
+            }else if(pincode_new1.equals(pincode)){
+                showToast("新舊卡片密碼不得相同，請重新輸入");
+            }else{
+                isDataValid = true;
+            }
+        } else {
+            isDataValid = true;
+        }
+
+        return isDataValid;
+    }
+
+    private void showToast(String message){
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        int height = display.getHeight();
+        Toast toast = Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.TOP, 0, height / 6);
+        toast.show();
     }
 
     private void initView(View view) {
