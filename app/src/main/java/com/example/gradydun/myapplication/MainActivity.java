@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.smartcarddialog.Log2;
 import com.example.smartcarddialog.SmartcardDialog;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
             dialog.setTitle("餘額查詢");
             dialog.setDialogType(SmartcardDialog.VERIFY_PIN);
             dialog.setOnInputCompleteListener(completeListener);
+            dialog.setLogLevel(Log2.LogLevels.DEBUG);
 
             //禁止點選Dailog外部或返回鍵時關閉Dialog
             dialog.setCancelable(false);
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
             dialog.setTitle("變更密碼");
             dialog.setDialogType(SmartcardDialog.CHANGE_PIN);
             dialog.setOnInputCompleteListener(completeListener);
+            dialog.setLogLevel(Log2.LogLevels.DEBUG);
 
             //禁止點選Dailog外部或返回鍵時關閉Dialog
             dialog.setCancelable(false);
