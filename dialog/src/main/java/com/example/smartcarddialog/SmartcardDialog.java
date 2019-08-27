@@ -51,6 +51,17 @@ public class SmartcardDialog extends DialogFragment implements View.OnClickListe
     private View.OnFocusChangeListener mFocusChangedListener;
     private EditText focusEditText;
 
+    private InputCompleteListener mInputCompleteListener;
+
+    public interface InputCompleteListener {
+        public void inputComplete(boolean isCanceled, String pinCode, String pinCode_new1, String pinCode_new2);
+    }
+
+    public void setOnInputCompleteListener(InputCompleteListener inputCompleteListener) {
+        this.mInputCompleteListener = inputCompleteListener;
+    }
+
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
@@ -86,6 +97,10 @@ public class SmartcardDialog extends DialogFragment implements View.OnClickListe
                                 Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
                                 field.setAccessible(true);
                                 field.set(dialog, true);
+                                if(mInputCompleteListener!= null) {
+                                    mInputCompleteListener.inputComplete(false, pincode, pincode_new1, pincode_new2);
+                                }
+
                             } else {
                                 //不關閉Dialog
                                 Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
@@ -105,6 +120,11 @@ public class SmartcardDialog extends DialogFragment implements View.OnClickListe
                             Field field = dialogInterface.getClass().getSuperclass().getDeclaredField("mShowing");
                             field.setAccessible(true);
                             field.set(dialogInterface, true);
+
+                            if(mInputCompleteListener!= null) {
+                                mInputCompleteListener.inputComplete(true, "", "", "");
+                            }
+
                         } catch (Exception e){
                             e.printStackTrace();
                         }
