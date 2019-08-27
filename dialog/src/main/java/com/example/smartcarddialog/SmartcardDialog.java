@@ -5,7 +5,6 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -47,6 +46,7 @@ public class SmartcardDialog extends DialogFragment implements View.OnClickListe
 
     private String title;
     private String dialogType;
+    private Log2.LogLevels logLevels = Log2.LogLevels.ASEERT;
 
     private View.OnFocusChangeListener mFocusChangedListener;
     private EditText focusEditText;
@@ -75,6 +75,8 @@ public class SmartcardDialog extends DialogFragment implements View.OnClickListe
         initView(view);
         initNumbericPadClickHandler(view);
 
+        Log2.setLogLevel(TAG, logLevels);
+
         //init dialog
         builder.setView(view)
                 .setTitle(title)
@@ -82,7 +84,7 @@ public class SmartcardDialog extends DialogFragment implements View.OnClickListe
                 .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        Log.e(TAG, "on click confirm handler");
+                        Log2.d(TAG, "on click confirm handler");
 
                         String pincode = editText_pinCode.getText().toString();
                         String pincode_new1 = editText_pinCode_new1.getText().toString();
@@ -115,7 +117,7 @@ public class SmartcardDialog extends DialogFragment implements View.OnClickListe
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Log.e(TAG, "on click cancel handler");
+                        Log2.d(TAG, "on click cancel handler");
                         try {
                             Field field = dialogInterface.getClass().getSuperclass().getDeclaredField("mShowing");
                             field.setAccessible(true);
@@ -131,6 +133,15 @@ public class SmartcardDialog extends DialogFragment implements View.OnClickListe
                     }
                 });
         return builder.create();
+    }
+
+    /**
+     * set Log level
+     * if want to see log, please invoke this function and pass Log2.LogLevels.DEBUG before show it
+     * @param logLevel Log2.LogLevels
+     */
+    public void setLogLevel(Log2.LogLevels logLevel){
+        this.logLevels = logLevel;
     }
 
     private boolean isInputDataValid(String dialogType, String pincode, String pincode_new1, String pincode_new2){
@@ -323,10 +334,10 @@ public class SmartcardDialog extends DialogFragment implements View.OnClickListe
 
         if(v.getId() == R.id.button_del){
             keycode = KeyEvent.KEYCODE_DEL;
-            Log.e(TAG, "delete pad is clicked");
+            Log2.d(TAG, "delete pad is clicked");
         }else {
             String buttonText = ((Button)v).getText().toString();
-            Log.e(TAG, "Numberic pad is clicked: " + buttonText);
+            Log2.d(TAG, "Numberic pad is clicked: " + buttonText);
             //取得key code
             keycode = KeyEvent.KEYCODE_NUMPAD_0 + Integer.parseInt(buttonText);
         }
